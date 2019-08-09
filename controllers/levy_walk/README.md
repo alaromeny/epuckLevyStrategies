@@ -1,7 +1,5 @@
 # e-puck controller
-This file contains the controller for the e-puck robot
-
-It:
+This file contains the controller for the e-puck robot. It:
 
 - generates a new position to navigate to based on a Levy Distribution in 2D space
 - manages the robot's states between rotating, moving forward and avoiding obstacles
