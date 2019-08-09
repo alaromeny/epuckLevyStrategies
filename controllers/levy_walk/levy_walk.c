@@ -64,20 +64,9 @@ typedef struct _Vector {
     double v;
 } Vector;
 
-
-//The global tag is just for me, so that I know it's being set up here and not in the function itself.
-//This ranges between 1.1 and 3.0, we have been going up in increments of 0.1
+//This setting allows you to change the Levy parameter mu
 double global_mu = 2.1;
 
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
-//DO NOT MODIFY ANYTHING BELOW THIS LINE, Thanks
 
 double angle_theta, move_parameter_x, move_parameter_y;
 double current_maneuver, total_units_rotation, total_units_distance;
@@ -96,7 +85,6 @@ int ps_offset_real[NB_DIST_SENS] = {375,158,423,682,447,594,142,360}; // to be m
 char * ps_text[]={"one","two","three","five","seven","nine","ten","eleven"};
 
 double left_encoder_offset = 28388;
-// double mu = 2.8;
 double sigma = 10.0; 
 
 WbDeviceTag left_motor;
@@ -108,17 +96,16 @@ WbDeviceTag led[NB_LEDS];
 
 
 
-/**********************************************************
- *
- * These Functions help detect obstacles
- *
+/************** Obsatcle Detection functions **************
+ * These Functions help detect obstacles:
+ * The first gathers readings from all sensors
+ * Then two o
  **********************************************************/
 
 void readProximitySensors(int ps_values[8], WbDeviceTag ps[8]){
   int i = 0;
   for (i = 0; i < 8 ; i++){
     ps_values[i] = (int)wb_distance_sensor_get_value(ps[i]);
-    // printf("Value of %d is: %f\n", i, ps_values[i]);
   }
 }
 
@@ -139,26 +126,14 @@ bool leftObstacle(){
   return obstacle;
 }
 
-// void avoidObstacle(){
-//   wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
-//   wb_motor_set_velocity(right_motor, - SPEED_UNIT * right_motor_speed);
-//   angle_theta = 1.5708;
-//   distance_d = 10;
-//   current_state = 1;
-// }
 
 /************** Calibrate function **************
-* This function calibrates IR sensors:
-* indeed, light sensors and distance sensors
-*
+* This function calibrates IR sensors
 * This calibration is done over n simulation steps.
-* The results are printed in the log window
-* and are stored in the corresponded offset.
+* The results are stored in the corresponded offset.
 *************************************************/
 
 void calibrateIRSensors(int n){
-
-  // printf("\nBegin calibration.\n");
 
   int i,it;
 
@@ -178,11 +153,6 @@ void calibrateIRSensors(int n){
     ps_offset[i] /= n-1;
   }
 
-
-  // dislay
-  // printf("Distance sensor offset: %d,%d,%d,%d,%d,%d,%d,%d\n",ps_offset[0],ps_offset[1],ps_offset[2],ps_offset[3],ps_offset[4],ps_offset[5],ps_offset[6],ps_offset[7]);
-
-  // printf("Calibration is done.\n");
 }
 
 /**********************************************************
@@ -190,7 +160,6 @@ void calibrateIRSensors(int n){
  * These Functions help calculate the motion of the robot
  *
  **********************************************************/
-
 
 //This calculates the norm between the robot and a new point x,y
 static double norm(const Vector *v) {
@@ -236,39 +205,21 @@ double randn (double mu, double sigma) {
 Vector levyRandn(double mu){
 
   double U1, U2, U3, phi, r, mu_minusone, mu_twominus, mu_minusone_inverted, x, y;
-  
-  //this used to be defined here, but is now a global parameter
-  //double mu = 2.7; 
-  
-
-
-
   mu_minusone = mu - 1;
   mu_twominus = 2 - mu;
   mu_minusone_inverted = 1 / mu_minusone;
-  
   //Generate 3 random numbers
   U1 = -1 + ((double) rand () / RAND_MAX) * 2;
   U2 = -1 + ((double) rand () / RAND_MAX) * 2;
   U3 = -1 + ((double) rand () / RAND_MAX) * 2;
-
   U1 = U1*(M_PI/2);
   U2 = (U2+1)/2;
-
   r = (sin(mu_minusone * U1) / pow(cos(U1), mu_minusone_inverted) ) * pow((cos(mu_twominus * U1) / U2), (mu_twominus / mu_minusone));
-
   phi = U3 * M_PI;
-
-
   x = r * cos(phi);
   y = r * sin(phi);
-
   Vector result = {x,y};
-
-  // printf("calculated X: %f, y: %f \n", x,y);
-
   return result;
-
 }
 
 
@@ -279,33 +230,22 @@ void calculateLevyMotion() {
    Vector newPosition = levyRandn(global_mu);
    //calculate the distance from current position
    distance_d = norm(&newPosition);
-   // printf("norm is: %f\n", distance_d);   //calculate the roation from current position
    angle_theta = rotation(&newPosition);
-    // printf("angle calculated is: %f\n",angle_theta);
    //set the current_maneuver parameter to the current wheel encoder value
    current_maneuver = wb_position_sensor_get_value(left_position_sensor); 
-   // printf(" current_maneuver is: %f\n", current_maneuver);
    //calculate the wheel rotations to perform the turn
-   total_units_rotation = (angle_theta * AXLE_LENGTH / WHEEL_DIAMETER);  
-   // printf("rotation calculated is: %f\n",total_units_rotation);
+   total_units_rotation = (angle_theta * AXLE_LENGTH / WHEEL_DIAMETER); 
    //calcualte the differnce from current to goal movement
    goal_units_rotation = current_maneuver + total_units_rotation;
-   // printf("goal_units_rotation is: %f\n",goal_units_rotation);
    //calculate the wheel rotations to perform the distance movement
    total_units_distance = distance_d / WHEEL_DIAMETER;
-   // printf("total_units_distance is: %f\n",total_units_distance);
-   
-   //printf("calculated distance: %f, rotation: %f \n", total_units_distance, goal_units_rotation);
-   //printf("Current: %f, \n", current);
    //Move to next state in the state machine
    current_state++;
 }
 
 void rotateByAngle() {
    
-   // printf("angle_theta: %f", angle_theta);
    if (angle_theta > 0){
-   
      wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
      wb_motor_set_velocity(right_motor, - SPEED_UNIT * right_motor_speed);
    } else{
@@ -313,33 +253,21 @@ void rotateByAngle() {
      wb_motor_set_velocity(left_motor, - SPEED_UNIT * left_motor_speed);
      wb_motor_set_velocity(right_motor, SPEED_UNIT * right_motor_speed);
    }
-
    current_maneuver = wb_position_sensor_get_value(left_position_sensor);
-
-   // printf("rotary movement is: %f\n", goal_units_rotation - current_maneuver);
-   // printf("rotary movement is: %f\n", current_maneuver);
    
    bool stop1 = (current_maneuver < goal_units_rotation) && (angle_theta < 0);
    bool stop2 = (current_maneuver > goal_units_rotation) && (angle_theta > 0);
-
-   // printf("stop1: %d or stop2: %d\n", stop1, stop2);
-
 
    if(stop1 || stop2){
      //stop moving
      wb_motor_set_velocity(left_motor, 0.0);
      wb_motor_set_velocity(right_motor, 0.0);
-     //set the current_maneuver parameter to the current wheel encoder value
-     // current_maneuver = abs(wb_position_sensor_get_value(left_position_sensor)-left_encoder_offset);
 
      current_maneuver = wb_position_sensor_get_value(left_position_sensor);
      goal_units_distance = current_maneuver + total_units_distance;
      //change to next state (moving forward)
      current_state++;
-
-
    }
-
 }
 
 void moveForwardByParameter() {
@@ -354,30 +282,30 @@ void moveForwardByParameter() {
     //stop moving
     wb_motor_set_velocity(left_motor, 0.0);
     wb_motor_set_velocity(right_motor, 0.0);
-    //change to next state (moving forward)
+    //change to first state
     current_state = 0;
-    // printf("Current forward motion finished\n");
   }
-
 }
 
-/*
- * This is the main program.
- * The arguments of the main function can be specified by the
- * "controllerArgs" field of the Robot node
- */
+
 int main(int argc, char **argv)
 {
   /* necessary to initialize webots stuff */
   wb_robot_init();
-  //int seed = time(NULL);
-  //srand ( time(NULL) );
+
+  //seeds the random number based on time
+  //uncomment these two lines if running on real robot
+  /* 
+  int seed = time(NULL);
+  srand ( time(NULL) );
+  */
   //seeds the random number based on its PID
+  //comment these two lines if running on real robot
   int seed = getpid();
   srand(seed);
   printf("My Seed number: %d\n", seed);
-  // initialize devices
 
+  // initialize devices
   char ps_names[8][4] = {
     "ps0", "ps1", "ps2", "ps3",
     "ps4", "ps5", "ps6", "ps7"
@@ -404,41 +332,18 @@ int main(int argc, char **argv)
   //Calibrate the distance sensors
   calibrateIRSensors(DIST_SENSOR_CALIB_STEPS);
 
-  /*
-   * You should declare here WbDeviceTag variables for storing
-   * robot devices like this:
-   *  WbDeviceTag my_sensor = wb_robot_get_device("my_sensor");
-   *  WbDeviceTag my_actuator = wb_robot_get_device("my_actuator");
-   */
 
-  /* main loop
-   * Perform simulation steps of TIME_STEP milliseconds
-   * and leave the loop when the simulation is over
-   */
+
+  //main loop
+
   while (wb_robot_step(TIME_STEP) != -1) {
 
-    /*
-     * Read the sensors :
-     * Enter here functions to read sensor data, like:
-     *  double val = wb_distance_sensor_get_value(my_sensor);
-     */
-
-    /* Process sensor data here */
-
-    /*
-     * Enter here functions to send actuator commands, like:
-     * wb_differential_wheels_set_speed(100.0,100.0);
-
-
-     */
     readProximitySensors(ps_values, ps);
-
     bool turnRight = leftObstacle();
     bool turnLeft = rightObstacle();
 
     if (turnRight) {
       // turn right
-      // printf("Turn Right!\n");
       wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
       wb_motor_set_velocity(right_motor, SPEED_UNIT * - right_motor_speed);
       last_state = current_state;
@@ -446,18 +351,12 @@ int main(int argc, char **argv)
     }
     else if (turnLeft) {
       // turn left
-      // printf("Turn Left!\n");
       wb_motor_set_velocity(left_motor, SPEED_UNIT * - left_motor_speed);
       wb_motor_set_velocity(right_motor, SPEED_UNIT * right_motor_speed);
       last_state = current_state;
       current_state = -1;
     }
-    else{
-      // wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
-      // wb_motor_set_velocity(right_motor, SPEED_UNIT * - right_motor_speed);
-    }
     
-
     switch(current_state) {
 
       case 0:
@@ -480,22 +379,9 @@ int main(int argc, char **argv)
           current_state = 2;
         }
     }
-
-    
-    
-
-
-
-
-
-
-
   };
-
-  /* Enter your cleanup code here */
 
   /* This is necessary to cleanup webots resources */
   wb_robot_cleanup();
-
   return 0;
 }

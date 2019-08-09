@@ -1,0 +1,5 @@
+*.txt
+*.wbproj
+/controllers/levy_walk/build/*
+/controllers/levy_walk/Makefile
+/controllers/levy_walk/levy_walk

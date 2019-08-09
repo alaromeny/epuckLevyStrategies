@@ -60,11 +60,11 @@ class levySupervisor(Supervisor):
 
     #Positions for sim reset between runs
     # 5 ROBOTS
-    initialPositions = [[-0.00675, 0.0009613764437435054, 0.00628],
-                        [ 0.09180, 0.0009696513919352761, 0.04730],
-                        [-0.13300, 0.0009681846505719943, 0.08160],
-                        [ 0.07000, 0.0009670902663476318, 0.18000],
-                        [-0.06000, 0.0009679514057212187, 0.20000]]
+    initialPositions = [[ 0.0058521, 0.000950252, -0.0903932],
+                        [ 0.0938443, 0.000968044,  0.0019351],
+                        [-0.0946773, 0.000968031, -0.0229992],
+                        [ 0.0501006, 0.000968025,  0.0932924],
+                        [-0.0596779, 0.000968038,  0.0831854]]
 
     # 10 ROBOTS
     # initialPositions = [[-0.0069870542839162, 0.000956436807326726, 0.00536741338262958],
@@ -98,11 +98,11 @@ class levySupervisor(Supervisor):
 
     #rotations for sim reset between runs
     # 5 ROBOTS
-    initialRotations = [[ 0.000979495, -0.999999, -0.000692245, -0.32440],
-                        [-0.000612861, -0.999999, -0.000893598,  1.93588],
-                        [-0.000679682,         1,  0.000433219,  1.13613],
-                        [-0.001270690, -0.999998, -0.001196520,  2.02924],
-                        [-0.000355069, -0.999999, -0.001081870,  3.66519]]
+    initialRotations = [[-5.09497e-5,  -1, -0.00011982,  2.94096],
+                        [ 0.000496675, -1,  0.00099746,  1.69792],
+                        [ 0.000496675, -1,  0.00099746,  1.69792],
+                        [ 0.000380418,  1,  0.00046610,  3.98702],
+                        [ 0.000187121, -1, -0.00069827, -2.61796]]
 
     # 10 ROBOTS
     # initialRotations = [[0.0025554460373243626, -0.9999966217288687, -0.0004756326314712683, -0.3229626686107096],
@@ -146,49 +146,29 @@ class levySupervisor(Supervisor):
     def transformArenaToImage(self, x_robot, y_robot, x_transform, y_transform):
         newX = (x_transform + (x_robot*100))
         newY = (y_transform + (y_robot*100))
-        # print "NewX NewY: " + str(newX) + " " + str(newY) 
         return int(newX), int(newY) 
 
     def initialization( self):
-        print "DB1"
         self.timestep = int(self.getBasicTimeStep())
         self.goundDisplay = Display("ground_display")
         self.emitter = self.getEmitter('emitter')
         channel = self.emitter.getChannel()
-        print("Channel Set Is: ")
-        print(channel)
-
-        # self.myBot0 = self.getFromDef("levyRobot0")
-        # self.myBot1 = self.getFromDef("levyRobot1")
-        # self.myBot2 = self.getFromDef("levyRobot2")
-        # self.myBot3 = self.getFromDef("levyRobot3")
-        # self.myBot4 = self.getFromDef("levyRobot4")
 
         self.robotList = []
-        # self.robotList.append(self.myBot0)
-        # self.robotList.append(self.myBot1)
-        # self.robotList.append(self.myBot2)
-        # self.robotList.append(self.myBot3)
-        # self.robotList.append(self.myBot4)
 
         for i in range(self.NUMBER_OF_ROBOTS):
             robotDef = "levyRobot" + str(i)
-            # print robotDef
             tmp = self.getFromDef(robotDef)
             self.robotList.append(tmp)
             tmp1 = tmp.getField("translation")
             tmp2 = tmp.getField("rotation")
-            print tmp1.getSFVec3f()
-            print tmp2.getSFRotation()
-
-        # print self.robotList
 
         self.robotFieldList = []
         self.populateRobotFields()
         self.reloadAllRobotPos()
 
     def reloadAllRobotPos( self):
-        print "[reloadAllRobotPos] Setting all robots to new positions"
+        print "[reloadAllRobotPos] Setting all robots to start positions"
         waitTime = self.TIMESTEP_DURATION / (self.NUMBER_OF_ROBOTS)
         for i in range(self.NUMBER_OF_ROBOTS):
             myField = self.robotFieldList[i]
@@ -196,13 +176,11 @@ class levySupervisor(Supervisor):
             myRot = self.initialRotations[i]
             myField[0].setSFVec3f(myPos)
             myField[1].setSFRotation(myRot)
-            time.sleep(waitTime)
-            print i
+            time.sleep(waitTime) #This is a hack to allow webots time between resetting robots to prevent robots crashing during reset
 
 
     def populateRobotFields( self):
         for i in range(self.NUMBER_OF_ROBOTS):
-            print i
             myBot = self.robotList[i]
             myField = []
             myField.append( myBot.getField("translation"))
@@ -273,7 +251,6 @@ class levySupervisor(Supervisor):
 
         self.automotaMap_width  = int(width)
         self.automotaMap_height = int(height)
-        # print "created stigmergyMap of Size " + str(self.automotaMap_width) + " by " + str(self.automotaMap_height)
         automotaTiles = (self.automotaMap_width*self.automotaMap_height)
 
         self.stigmergyMap = np.zeros((self.automotaMap_width, self.automotaMap_height), dtype=np.uint8)
@@ -295,58 +272,35 @@ class levySupervisor(Supervisor):
 
 
 
-    # Main loop:
-    # - perform simulation steps until Webots is stopping the controller
-    
+        # Main loop:  
         count = 0
         while self.step(self.timestep) != -1:
-            # Read the sensors:
-            # Enter here functions to read sensor data, like:
-            #  val = ds.getValue()
-            # Process sensor data here.
 
             for i in range(self.NUMBER_OF_ROBOTS):
                 myBot = self.robotList[i]
                 pos = myBot.getPosition()
                 newPos = self.transformArenaToImage(pos[0], pos[2], x_transform, y_transform)
-                # self.automotaMap[int(math.floor(newPos[0]/10)), int(math.floor(newPos[1]/10))] = np.uint8(255)
-                # timestamp = self.timingsMap[int(math.floor(newPos[0]/10)), int(math.floor(newPos[1]/10))]
-                # if timestamp == 0:
-                #     self.timingsMap[int(math.floor(newPos[0]/10)), int(math.floor(newPos[1]/10))] = count
                 self.updateTrail(newPos, count)
 
             if count == self.SIMULATION_RUN_LIMIT: #== 0 and count > 0:
-                # self.bot0Field.setSFVec3f([0,0,0])
-                # print self.bot0Field.getSFVec3f()
-                # self.simulationReset()
                 self.resetField()
                 count = 0
 
 
             if count % 64 == 0:
                 self.automotaMap_x, self.automotaMap_y = np.nonzero(self.automotaMap) 
-                # print "Non zero tiles: " + str(self.automotaMap_x) 
-                # print "Non zero tiles: " + str(self.automotaMap_y) 
                 for i in range(len(self.automotaMap_x)):
                     x = self.automotaMap_x[i]
                     y = self.automotaMap_y[i]
-                    # pheromoneStrength = self.automotaMap[x,y]
-                    # pheromoneColour = int(round((pheromoneStrength * self.WHITE)/255))
                     self.goundDisplay.setColor(self.WHITE)
                     self.goundDisplay.fillRectangle(int(x), int(y), 1, 1)
                     self.goundDisplay.fillRectangle(0, 0, 1, 1)
-                    # print str(x) + " y: " + str(y)
-                    # self.goundDisplay.fillRectangle(int(x*10), int(y*10), 10, 10)
-                    # self.goundDisplay.fillRectangle(90, 80, 10, 10)
-                    # self.automotaMap[x,y] = np.uint8(pheromoneStrength)
                     self.stigmergyMap[x,y] = np.uint8(1)
 
                 self.stigmergyMap_x, self.stigmergyMap_y = np.nonzero(self.stigmergyMap)
                 coverage = float(len(self.stigmergyMap_x)) / float(automotaTiles)
                 printMessage = str(coverage) + ",\n"
-                # print printMessage
                 self.loggingFile.write(printMessage) 
-                # print self.timingsMap
 
             count = count + 1
             pass
