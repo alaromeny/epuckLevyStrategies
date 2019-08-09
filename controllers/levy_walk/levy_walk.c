@@ -27,7 +27,7 @@
  * You may want to add macros here.
  */
 #define TIME_STEP                 64
-#define SPEED_UNIT                0.00628
+#define SPEED_SETTING             0.5
 #define NB_LEDS                   8
 #define ON                        1
 #define OFF                       0
@@ -72,6 +72,8 @@ double angle_theta, move_parameter_x, move_parameter_y;
 double current_maneuver, total_units_rotation, total_units_distance;
 double goal_units_rotation, goal_units_distance, distance_d;
 
+
+double speed_unit = 0.01256 * SPEED_SETTING;
 
 int ps_values[NB_DIST_SENS]={0,0,0,0,0,0,0,0};
 int current_state = 0;
@@ -246,12 +248,12 @@ void calculateLevyMotion() {
 void rotateByAngle() {
    
    if (angle_theta > 0){
-     wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
-     wb_motor_set_velocity(right_motor, - SPEED_UNIT * right_motor_speed);
+     wb_motor_set_velocity(left_motor, speed_unit * left_motor_speed);
+     wb_motor_set_velocity(right_motor, - speed_unit * right_motor_speed);
    } else{
    
-     wb_motor_set_velocity(left_motor, - SPEED_UNIT * left_motor_speed);
-     wb_motor_set_velocity(right_motor, SPEED_UNIT * right_motor_speed);
+     wb_motor_set_velocity(left_motor, - speed_unit * left_motor_speed);
+     wb_motor_set_velocity(right_motor, speed_unit * right_motor_speed);
    }
    current_maneuver = wb_position_sensor_get_value(left_position_sensor);
    
@@ -272,8 +274,8 @@ void rotateByAngle() {
 
 void moveForwardByParameter() {
 
-  wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
-  wb_motor_set_velocity(right_motor, SPEED_UNIT * right_motor_speed);
+  wb_motor_set_velocity(left_motor, speed_unit * left_motor_speed);
+  wb_motor_set_velocity(right_motor, speed_unit * right_motor_speed);
 
   // current_maneuver = abs(wb_position_sensor_get_value(left_position_sensor)-left_encoder_offset);
   current_maneuver = wb_position_sensor_get_value(left_position_sensor);
@@ -344,15 +346,15 @@ int main(int argc, char **argv)
 
     if (turnRight) {
       // turn right
-      wb_motor_set_velocity(left_motor, SPEED_UNIT * left_motor_speed);
-      wb_motor_set_velocity(right_motor, SPEED_UNIT * - right_motor_speed);
+      wb_motor_set_velocity(left_motor, speed_unit * left_motor_speed);
+      wb_motor_set_velocity(right_motor, speed_unit * - right_motor_speed);
       last_state = current_state;
       current_state = -1;
     }
     else if (turnLeft) {
       // turn left
-      wb_motor_set_velocity(left_motor, SPEED_UNIT * - left_motor_speed);
-      wb_motor_set_velocity(right_motor, SPEED_UNIT * right_motor_speed);
+      wb_motor_set_velocity(left_motor, speed_unit * - left_motor_speed);
+      wb_motor_set_velocity(right_motor, speed_unit * right_motor_speed);
       last_state = current_state;
       current_state = -1;
     }
