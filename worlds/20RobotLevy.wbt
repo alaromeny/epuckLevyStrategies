@@ -1,0 +1,384 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.9998614981253526 0.013938427536644982 -0.009094218181412874 4.7945860599697445
+  position 0.11876218298093137 4.917588117651077 0.38668750650681644
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Floor {
+  size 2.2 1.8
+  texture [
+    "textures/pureblack.jpg"
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+DEF levyRobot0 E-puck {
+  hidden position_0_0 33202.985551945996
+  hidden position_0_1 22621.173066284206
+  hidden rotation_1 -1 0 0 2.6343888090611776
+  hidden rotation_2 -1 0 0 1.7059604376942437
+  translation 0.008127162191008258 0.0009680444529809908 -0.30881077028977816
+  rotation 0.0008610604120379917 0.9999227021473357 0.01240356018800927 0.13470753760153908
+  controller "levy_walk"
+  name "e-puck(1)"
+  battery [
+    0
+  ]
+}
+DEF levyRobot1 E-puck {
+  hidden position_0_0 33155.64717807967
+  hidden position_0_1 22349.763959512406
+  hidden rotation_1 -1 0 0 5.561497400172741
+  hidden rotation_2 1 0 0 5.809363432563122
+  translation 0.09189980882070348 0.0009680149941178173 -0.2858776321906611
+  rotation -8.527869191870239e-5 0.9999999629825607 0.0002583842532234243 5.7176185713357714
+  controller "levy_walk"
+  name "e-puck(2)"
+  receiver_channel 2
+  battery [
+    0
+  ]
+}
+DEF levyRobot2 E-puck {
+  hidden position_0_0 30875.50402251342
+  hidden position_0_1 23954.74013459913
+  hidden rotation_1 1 0 0 0.06857696706628473
+  hidden rotation_2 -1 0 0 3.2377436305474747
+  translation 0.17007451310224742 0.0009680443031364512 -0.24133258352020737
+  rotation -0.000811859006664385 -0.9999990212561936 -0.0011394611041858585 1.3798812289330675
+  controller "levy_walk"
+  name "e-puck(3)"
+  emitter_channel 3
+  battery [
+    0
+  ]
+}
+DEF levyRobot3 E-puck {
+  hidden position_0_0 30786.33026588509
+  hidden position_0_1 23877.972374278495
+  hidden rotation_1 1 0 0 1.2777392948820883
+  hidden rotation_2 -0.9999999999999999 0 0 1.8682069960667962
+  translation 0.23118786999230578 0.0009680397210960756 -0.17338080121495625
+  rotation -2.5056527386290116e-6 -0.9999994592074436 -0.0010399896835844883 1.5659588682189323
+  controller "levy_walk"
+  name "e-puck(4)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot4 E-puck {
+  hidden position_0_0 30786.33026588543
+  hidden position_0_1 23877.972374340912
+  hidden rotation_1 1 0 0 1.2777392945437562
+  hidden rotation_2 -1 0 0 1.8682070584835986
+  translation 0.2806133016127914 0.0009680694991156206 -0.09903870163891737
+  rotation 0.0011315597641214231 -0.9999986919288152 -0.0011557305736101854 1.5496509728618648
+  controller "levy_walk"
+  name "e-puck(5)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot5 E-puck {
+  hidden position_0_0 30786.3302658716
+  hidden position_0_1 23877.972374301196
+  hidden rotation_1 1 0 0 1.2777393083753517
+  hidden rotation_2 -1 0 0 1.8682070187677837
+  translation 0.3081043939874075 0.0009680472205710767 -0.017684320742043264
+  rotation -0.0005906596392709583 -0.9999992356788252 0.0010861689353832353 1.5197589999955
+  controller "levy_walk"
+  name "e-puck(6)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot6 E-puck {
+  hidden position_0_0 30786.330265833243
+  hidden position_0_1 23877.972374274304
+  hidden rotation_1 1 0 0 1.2777393467305622
+  hidden rotation_2 -1 0 0 1.8682069918758446
+  translation 0.3107488182510576 0.0009680472402321463 0.06985605381667467
+  rotation -0.0008499443700257555 0.9999995768335566 0.000352033060725313 3.926956184832837
+  controller "levy_walk"
+  name "e-puck(7)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot7 E-puck {
+  hidden position_0_0 30786.330265886674
+  hidden position_0_1 23877.972374326084
+  hidden rotation_1 1 0 0 1.2777392932995677
+  hidden rotation_2 -1 0 0 1.868207043655197
+  translation 0.25374202305092575 0.0009712186812011643 0.14464707591046655
+  rotation -0.0014734991705575079 0.999998815083555 0.0004456811422495949 4.057819416393273
+  controller "levy_walk"
+  name "e-puck(8)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot8 E-puck {
+  hidden position_0_0 30786.33026596279
+  hidden position_0_1 23877.97237439101
+  hidden rotation_1 1 0 0 1.2777392171821367
+  hidden rotation_2 -1 0 0 1.8682071085822045
+  translation 0.19959909380148938 0.0009765166268034704 0.21270191402050695
+  rotation -0.001744936159019719 0.9999980733265829 -0.0008991890364303287 3.6645434355596596
+  controller "levy_walk"
+  name "e-puck(9)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot9 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation 0.1273907606635768 0.00096801888915664 0.2625228460722263
+  rotation -7.99290825351905e-5 0.9999999943480995 -7.010807960667715e-5 3.272454593433027
+  controller "levy_walk"
+  name "e-puck(10)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot10 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation 0.02980924292972842 0.0009680184996112805 0.2734632175525736
+  rotation 9.716898943246472e-6 -0.999999999542405 2.8649111614200917e-5 3.0107325304359227
+  controller "levy_walk"
+  name "e-puck(11)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot11 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.07096440040201601 0.0009680184664404689 0.2614093071871301
+  rotation 3.6368760504510153e-7 0.9999999999982904 -1.8130386454833072e-6 2.617993950924662
+  controller "levy_walk"
+  name "e-puck(12)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot12 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.17201707019907952 0.0009680185365753789 0.2053749439746224
+  rotation 2.870081128470673e-5 0.9999999988890921 -3.7390899054780025e-5 2.356192639127268
+  controller "levy_walk"
+  name "e-puck(13)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot13 E-puck {
+  hidden position_0_0 30786.330265833243
+  hidden position_0_1 23877.972374274304
+  hidden rotation_1 1 0 0 1.2777393467305622
+  hidden rotation_2 -1 0 0 1.8682069918758446
+  translation -0.24305511995815343 0.0009680450380496943 0.14486356917298518
+  rotation 0.0004028135088543377 -0.9999995853132718 -0.0008167708132824252 -2.2252599226936653
+  controller "levy_walk"
+  name "e-puck(14)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot14 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.2949980407555648 0.0009680184659981422 0.07303442901531731
+  rotation 1.6282185236097086e-6 0.9999999999964543 2.1071977313368932e-6 1.8325957090034373
+  controller "levy_walk"
+  name "e-puck(15)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot15 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.2939721589746752 0.0009680184660150176 -0.018941434914135788
+  rotation 1.3269150590684636e-5 0.9999999986874037 -4.948860644480374e-5 1.7016935682100272
+  controller "levy_walk"
+  name "e-puck(16)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot16 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.27711660736958443 0.0009680184660061358 -0.10198587757120887
+  rotation 3.189907240744392e-5 0.9999999924142062 -0.00011897073814465153 1.0471941864627645
+  controller "levy_walk"
+  name "e-puck(17)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot17 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.23214843874468127 0.0009680184660296725 -0.1826131699677583
+  rotation 0.0001051649477593373 0.9999999778932553 -0.0001820819119800642 0.7853929684141191
+  controller "levy_walk"
+  name "e-puck(18)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot18 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.16320017478517013 0.0009680184660105767 -0.2524669241995502
+  rotation -0.00014678316536959976 -0.9999999890401609 -1.9348914014132405e-5 5.3668837885249605
+  controller "levy_walk"
+  name "e-puck(19)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+DEF levyRobot19 E-puck {
+  hidden position_0_0 30786.33026583324
+  hidden position_0_1 23877.9723742743
+  hidden rotation_1 1 0 0 1.2777393467341995
+  hidden rotation_2 -1 0 0 1.8682069918722066
+  translation -0.07718917049180984 0.000968018466027452 -0.28823372160196703
+  rotation -6.157623527721959e-5 0.9999999962071203 -6.1596480656194e-5 0.2617990820637605
+  controller "levy_walk"
+  name "e-puck(20)"
+  receiver_channel 4
+  battery [
+    0
+  ]
+}
+Supervisor {
+  translation 0 0.001 0
+  children [
+    Emitter {
+      channel 4
+    }
+    DEF GROUND Display {
+      children [
+        DEF SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 1 1 1
+              specularColor 0.749 0.749 0.749
+            }
+            texture ImageTexture {
+              url [
+                "textures/pureblack.jpg"
+              ]
+            }
+          }
+          geometry Plane {
+            size 2.2 1.8
+          }
+        }
+      ]
+      name "ground_display"
+      boundingObject USE SHAPE
+      width 220
+      height 180
+    }
+  ]
+  controller "supervisor"
+}
+Solid {
+  translation 0 0.025 0.8875
+  rotation 1 0 0 0
+  children [
+    DEF LONG_WALL Shape {
+      appearance DEF WALL_APPEARANCE Appearance {
+        material Material {
+        }
+        texture ImageTexture {
+          url [
+            "textures/purewhite.jpg"
+          ]
+        }
+      }
+      geometry TexturedBox {
+        size 2.2 0.05 0.025
+      }
+    }
+  ]
+  boundingObject USE LONG_WALL
+}
+Solid {
+  translation 0 0.025 -0.8875
+  children [
+    USE LONG_WALL
+  ]
+  name "solid(1)"
+  boundingObject USE LONG_WALL
+}
+Solid {
+  translation 1.0875 0.025 0
+  children [
+    DEF SHORT_WALL Shape {
+      appearance USE WALL_APPEARANCE
+      geometry TexturedBox {
+        size 0.025 0.05 1.8
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE SHORT_WALL
+}
+Solid {
+  translation -1.0875 0.025 0
+  children [
+    USE SHORT_WALL
+  ]
+  name "solid(3)"
+  boundingObject USE SHORT_WALL
+}
