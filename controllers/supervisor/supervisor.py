@@ -329,6 +329,12 @@ class levySupervisor(Supervisor):
 
             if count == self.SIMULATION_RUN_LIMIT: #== 0 and count > 0:
                 self.resetField()
+                self.goundDisplay.setColor(self.BLACK)
+                self.goundDisplay.fillRectangle(0, 0, width, height)
+                self.goundDisplay.setColor(self.RED)
+                self.goundDisplay.setColor(self.BLUE)
+                self.goundDisplay.setOpacity(1)
+                self.goundDisplay.setColor(self.WHITE)
                 count = 0
 
 
